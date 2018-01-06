@@ -1,0 +1,362 @@
+import QtQuick 2.4
+import QtQuick.Controls 2.2
+import QtPositioning 5.9
+import QtSensors 5.9
+import QtGraphicalEffects 1.0
+import QtQuick.Extras 1.4
+import QtQuick.Layouts 1.0
+import QtCanvas3D 1.1
+
+Item {
+    id: item1
+    property alias massPosition: massPosition
+    property alias connectionIndicator: connectionIndicator
+    property alias gpsFixIndicator: gpsFixIndicator
+
+    //Sensors
+    property alias labelWindTemp: labelWindTemp
+    property alias labelWindDirection: labelWindDirection
+    property alias labelWindSpeed: labelWindSpeed
+    property alias labelIMURoll: labelIMURoll
+    property alias labelIMUPitch: labelIMUPitch
+    property alias labelIMUYaw: labelIMUYaw
+    property alias labelGPSLongitude: labelGPSLongitude
+    property alias labelGPSLatitude: labelGPSLatitude
+    property alias labelGPSSpeed: labelGPSSpeed
+    property alias labelGPSHeading: labelGPSHeading
+
+    property alias btnConnect: btnConnect
+    property alias comPort: comPort
+    property alias switchMode: switchMode
+
+    property alias labelTargetLongitude: labelTargetLongitude
+    property alias labelTargetLatitude: labelTargetLatitude
+
+    width: 500
+    Rectangle {
+        border.color: "#00000000"
+        anchors.fill: parent
+        z: -3
+        border.width: 1
+
+        Rectangle {
+            id: rectangle
+            color: "#cbc7c7"
+            anchors.rightMargin: 20
+            anchors.leftMargin: 20
+            anchors.bottomMargin: 20
+            anchors.topMargin: 20
+            anchors.fill: parent
+            border.color: "#000000"
+            z: 0
+
+
+            Slider {
+                id: massPosition
+                y: 402
+                height: 40
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 20
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                z: 1
+                value: 0.5
+            }
+
+            StatusIndicator {
+                id: connectionIndicator
+                x: 404
+                y: 48
+                width: 19
+                height: 25
+                color: "#00ff00"
+                active: false
+            }
+
+            ColumnLayout {
+                x: 52
+                y: 70
+            }
+
+            Label {
+                id: labelconnecton
+                x: 315
+                y: 51
+                text: qsTr("Connection")
+                font.pointSize: 12
+            }
+
+            Label {
+                id: labelMotorSetpoint
+                x: 184
+                y: 366
+                text: qsTr("Motor position")
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: massPosition.horizontalCenter
+                anchors.bottom: massPosition.top
+                anchors.bottomMargin: 0
+                font.underline: false
+                font.pointSize: 19
+            }
+
+            StatusIndicator {
+                id: gpsFixIndicator
+                x: 404
+                y: 85
+                width: 19
+                height: 23
+                color: "#00ff00"
+                active: false
+            }
+
+            Label {
+                id: labelGpsFix1
+                x: 340
+                y: 87
+                text: qsTr("GPS Fix")
+                font.pointSize: 12
+            }
+
+            Label {
+                id: labelWindTemp
+                x: 17
+                y: 46
+                width: 124
+                height: 18
+                text: qsTr("labelWindTemp")
+            }
+
+            Label {
+                id: labelWindDirection
+                x: 17
+                y: 70
+                width: 124
+                height: 18
+                text: qsTr("labelWindDirection")
+            }
+
+            Label {
+                id: labelWindSpeed
+                x: 17
+                y: 94
+                width: 124
+                height: 18
+                text: qsTr("labelWindSpeed")
+            }
+
+            Label {
+                id: labelGPSLongitude
+                x: 17
+                y: 151
+                width: 124
+                height: 18
+                text: qsTr("labelGPSLongitude")
+            }
+
+            Label {
+                id: labelGPSLatitude
+                x: 17
+                y: 175
+                width: 124
+                height: 18
+                text: qsTr("labelGPSLatitude")
+            }
+
+            Label {
+                id: labelIMURoll
+                x: 17
+                y: 279
+                width: 124
+                height: 18
+                text: qsTr("labelIMURoll")
+            }
+
+            Label {
+                id: labelIMUPitch
+                x: 17
+                y: 303
+                width: 124
+                height: 18
+                text: qsTr("labelIMUPitch")
+            }
+
+            Label {
+                id: labelIMUYaw
+                x: 17
+                y: 327
+                width: 124
+                height: 18
+                text: qsTr("labelIMUYaw")
+            }
+
+            Text {
+                id: text2
+                x: 36
+                y: 19
+                text: qsTr("Windsensor")
+                font.pixelSize: 17
+            }
+
+            Text {
+                id: text3
+                x: 61
+                y: 124
+                text: qsTr("GPS")
+                font.pixelSize: 17
+            }
+
+            Text {
+                id: text4
+                x: 61
+                y: 252
+                text: qsTr("IMU")
+                font.pixelSize: 17
+            }
+
+
+            Button {
+                id: btnConnect
+                x: 390
+                y: 16
+                width: 59
+                height: 21
+                text: qsTr("Connect")
+            }
+
+
+
+
+            TextInput {
+                id: comPort
+                x: 304
+                y: 17
+                width: 80
+                height: 20
+                text: "Enter com port"
+                font.family: "Times New Roman"
+                font.pixelSize: 12
+            }
+
+            Switch {
+                id: switchMode
+                x: 359
+                y: 135
+                width: 70
+                height: 34
+                text: qsTr("")
+                rightPadding: 0
+                leftPadding: 0
+                font.pointSize: 9
+                scale: 1
+                bottomPadding: 4
+            }
+
+            Label {
+                id: lblMode
+                y: 178
+                text: qsTr("Manuel")
+                anchors.left: switchMode.left
+                anchors.leftMargin: 0
+                anchors.bottom: switchMode.top
+                anchors.bottomMargin: 0
+            }
+
+            Label {
+                id: lblMode1
+                x: 396
+                y: 171
+                text: qsTr("Auto")
+                anchors.right: switchMode.right
+                anchors.rightMargin: 0
+                anchors.bottom: switchMode.top
+                anchors.bottomMargin: 0
+            }
+
+            Label {
+                id: labelGPSSpeed
+                x: 18
+                y: 199
+                width: 124
+                height: 18
+                text: qsTr("labelGPSSpeed")
+            }
+
+            Label {
+                id: labelGPSHeading
+                x: 18
+                y: 223
+                width: 124
+                height: 18
+                text: qsTr("labelGPSHeading")
+            }
+
+            Label {
+                id: labelTargetLongitude
+                x: 305
+                y: 237
+                width: 124
+                height: 18
+                text: qsTr("labelTargetLongitude")
+            }
+
+            Label {
+                id: labelTargetLatitude
+                x: 305
+                y: 261
+                width: 124
+                height: 18
+                text: qsTr("labelTargetLatitude")
+            }
+
+            Text {
+                id: text5
+                x: 343
+                y: 210
+                text: qsTr("Target")
+                font.pixelSize: 17
+            }
+
+            Label {
+                id: labelIMURoll3
+                x: 248
+                y: 237
+                width: 51
+                height: 18
+                text: qsTr("Longitude")
+            }
+
+            Label {
+                id: labelIMURoll4
+                x: 248
+                y: 261
+                width: 51
+                height: 18
+                text: qsTr("Latitude")
+            }
+            
+        }
+        
+    }
+    
+    Button {
+        id: button
+        x: 354
+        y: 317
+        width: 62
+        height: 20
+        text: qsTr("Set")
+    }
+    
+    Button {
+        id: button1
+        x: 286
+        y: 317
+        width: 62
+        height: 20
+        text: qsTr("Get")
+    }
+    
+
+}

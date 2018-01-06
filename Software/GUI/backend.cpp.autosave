@@ -1,0 +1,112 @@
+#include "backend.h"
+#include <QThread>
+
+Backend::Backend() {
+    serial = new Serialport();
+    parser = new Parser();
+
+    connect(serial,SIGNAL(dataRecieved(QByteArray)),this,SLOT(dataRecieved(QByteArray)));
+    connect(parser,SIGNAL(sAsyncMsg(unsigned int,float)),this,SLOT(slotAsyncMsg(unsigned int, float)));
+    }
+
+void Backend::setMotorPosition(double d)
+{
+    char pos =(char)(d*200-100);
+    qDebug() << "SetSetPoint " << pos;
+
+    // Test message
+    /*
+    QByteArray test;
+    test.append((char)SOT);
+    test.append((char)ASYNC_MSG_BIT);
+    test.append((char)MSG_ID::ID_IMU_ROLL);
+    test.append(pos);
+    test.append((char)0b00000000);
+    test.append((char)0b00000000);
+    test.append((char)0b00000000);
+    unsigned char crc = 0;
+    for(int i = 0; i < 7; i++)
+    {
+        crc ^= test.at(i);
+    }
+    test.append((crc));
+
+    serial->sendData(test);
+    test.clear();
+    */
+
+    //parser->parse(test,test.length());
+    this->sendMsg((unsigned char)SET_MASK, (unsigned char)MSG_ID::ID_MOTCTRL_POSITION, (unsigned int)pos);
+
+}
+
+void Backend::setMode(bool b){
+    qDebug() << "SetMode " << b;
+    sendMsg((unsigned char)SET_MASK, (unsigned char)MSG_ID::);
+}
+
+void Backend::dataRecieved(QByteArray data){
+    qDebug() << "Data arrived at Backend " << data << endl;
+    parser->parse(data, data.length());
+}
+
+void Backend::connectBouy(QString port){
+    qDebug() << "Connecting on: " <<  port << endl;
+    serial->connect(port);
+}
+
+void Backend::slotAsyncMsg(unsigned int id, float value){
+    qDebug() << "slotAsyncMsg" << id << value << endl;
+    emit this->sensorChange(id, value);
+}
+
+void Backend::sendCommandFromQML(QList<int> cmd,QList<int> id, QList<QString> data, int count){
+    for(int i = 0; i < count; i++){
+        this->sendMsg((unsigned char)cmd.at(i), (unsigned char)id.at(i), data.at(i).toFloat());
+        qDebug() << cmd.at(i) << " " << id.at(i) << " " << data.at(i).toFloat() << endl;
+    }
+
+}
+
+//void Backend::sendCommand(int cmd, int id, float data){
+//    this->sendMsg((unsigned char)cmd, (unsigned char)id, (float)data);
+
+//}
+// send a float value
+void Backend::sendMsg(unsigned char cmd, unsigned char id, float data){
+    Msg msg;
+    Payload payload;
+    *(float*)&payload = data;
+    msg.sot = SOT;
+    msg.cmd = cmd;
+    msg.id = id;
+    msg.d  = payload;
+    msg.crc = parser->CalcCRC((unsigned char*)&msg);
+
+    QByteArray qMsg;
+    qMsg.append((const char*) &msg, MSG_LEN);
+    if(serial->sendData(qMsg)){
+      parser->setLastSendID(id);
+    }
+}
+// Send a unsigned integer
+void Backend::sendMsg(unsigned char cmd, unsigned char id, unsigned int data){
+    Msg msg;
+    Payload payload;
+    *(unsigned int*)&payload = data;
+    msg.sot = SOT;
+    msg.cmd = cmd;
+    msg.id = id;
+    msg.d  = payload;
+    msg.crc = parser->CalcCRC((unsigned char*)&msg);
+
+    QByteArray qMsg;
+    qMsg.append((const char*) &msg, MSG_LEN);
+    if(serial->sendData(qMsg)){
+      parser->setLastSendID(id);
+    }
+}
+
+
+
+

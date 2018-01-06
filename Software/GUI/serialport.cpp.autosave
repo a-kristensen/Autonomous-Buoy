@@ -1,0 +1,45 @@
+#include "serialport.h"
+#include <QDebug>
+
+Serialport::Serialport()
+{
+
+    qDebug() << " Serial port constructed" << endl;
+
+    serialPort = new QSerialPort();
+    serialPort->setBaudRate(QSerialPort::Baud115200);
+    serialPort->setDataBits(QSerialPort::Data8);
+    serialPort->setParity(QSerialPort::NoParity);
+    serialPort->setStopBits(QSerialPort::OneStop);
+    serialPort->setFlowControl(QSerialPort::NoFlowControl);
+
+
+}
+
+void Serialport::serialRecieved(){
+    QByteArray data = serialPort->readAll();
+    qDebug() << "Data recieved : " << data << endl;
+    emit dataRecieved(data);
+}
+
+void Serialport::sendData(QByteArray data){
+    //QByteArray temp;
+    //temp = temp.append(data);
+    if(serialPort->write(data) < data.length()){
+        qDebug() << "Data not written" << data << endl;
+    } else {
+        qDebug() << "Data written: " << data << endl;
+    }
+}
+
+void Serialport::connect(QString port){
+    serialPort->setPortName(port);
+    if(serialPort->open(QSerialPort::ReadWrite))
+    {
+        qDebug() << "Connected" << endl;
+        QObject::connect(serialPort,SIGNAL(readyRead()),this, SLOT(serialRecieved()));
+    } else {
+        qDebug() << "Failed to open Port" << serialPort->error() << endl;
+    }
+
+}

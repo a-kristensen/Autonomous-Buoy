@@ -1,0 +1,267 @@
+import QtQuick 2.4
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.0
+
+Item {
+    property alias txtFControllerGain1: txtFControllerGain1
+    property alias txtFControllerGain1: txtFControllerGain2
+    property alias txtFControllerGain1: txtFControllerGain3
+    property alias txtFCourserVariation1: txtFCourserVariation1
+    property alias txtFCourserVariation1: txtFCourserVariation2
+    
+    property alias txtFMotorCtrlP: txtFMotorCtrlP
+    property alias txtFMotorCtrlP: txtFMotorCtrlI
+    property alias txtFMotorCtrlP: txtFMotorCtrlD
+    
+    property alias btnMotorSetParam: btnMotorSetParam
+    property alias btnMotorGetParam: btnMotorGetParam
+    
+    property alias btnHeadingSetParam: btnHeadingSetParam
+    property alias btnHeadingGetParam: btnHeadingGetParam
+    
+    width: 1280
+    height: 720
+
+    Rectangle {
+        id: rectangle
+        color: "#ffffff"
+        anchors.fill: parent
+
+        Rectangle {
+            id: rectangle1
+            color: "#cbc7c7"
+            anchors.right: parent.horizontalCenter
+            anchors.rightMargin: 10
+            anchors.top: parent.top
+            anchors.topMargin: 20
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            border.color: "#000000"
+
+            Text {
+                id: text1
+                x: 54
+                width: 503
+                height: 60
+                text: qsTr("Heading controller")
+                anchors.top: parent.top
+                anchors.topMargin: 10
+                anchors.horizontalCenterOffset: 1
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                fontSizeMode: Text.VerticalFit
+                font.pixelSize: 73
+            }
+
+            RowLayout {
+                x: 68
+                y: 129
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Column {
+
+                    Label {
+                        id: label
+                        width: 225
+                        height: 45
+                        text: qsTr("Controller gain 1:")
+                        transformOrigin: Item.Center
+                        font.pointSize: 20
+                    }
+
+                    Label {
+                        id: label1
+                        width: 200
+                        height: 45
+                        text: qsTr("Controller gain 2:")
+                        transformOrigin: Item.Center
+                        font.pointSize: 20
+                    }
+
+                    Label {
+                        id: label2
+                        width: 200
+                        height: 45
+                        text: qsTr("Controller gain 3:")
+                        transformOrigin: Item.Center
+                        font.pointSize: 20
+                    }
+
+                    Label {
+                        id: label3
+                        width: 200
+                        height: 45
+                        text: qsTr("Course variation 1:")
+                        transformOrigin: Item.Center
+                        font.pointSize: 20
+                    }
+
+                    Label {
+                        id: label4
+                        width: 200
+                        height: 45
+                        text: qsTr("Course variation 2:")
+                        transformOrigin: Item.Center
+                        font.pointSize: 20
+                    }
+                }
+
+                Column {
+
+                    TextField {
+                        id: txtFControllerGain1
+                        text: qsTr("")
+                        font.pointSize: 20
+                    }
+
+                    TextField {
+                        id: txtFControllerGain2
+                        text: qsTr("")
+                        font.pointSize: 20
+                    }
+
+                    TextField {
+                        id: txtFControllerGain3
+                        text: qsTr("")
+                        font.pointSize: 20
+                    }
+
+                    TextField {
+                        id: txtFCourserVariation1
+                        font.pointSize: 20
+                    }
+
+                    TextField {
+                        id: txtFCourserVariation2
+                        text: qsTr("")
+                        font.pointSize: 20
+                    }
+                }
+            }
+
+            Button {
+                id: btnHeadingSetParam
+                x: 319
+                y: 368
+                width: 200
+                height: 45
+                text: qsTr("Set parameters")
+                font.pointSize: 20
+            }
+
+            Button {
+                id: btnHeadingGetParam
+                x: 320
+                y: 425
+                width: 200
+                height: 45
+                text: qsTr("Get parameters")
+                font.pointSize: 20
+            }
+        }
+
+        Rectangle {
+            id: rectangle2
+            color: "#cbc7c7"
+            anchors.left: parent.horizontalCenter
+            anchors.leftMargin: 10
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+            anchors.top: parent.top
+            anchors.topMargin: 20
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            border.color: "#000000"
+
+            Text {
+                id: text2
+                x: 54
+                width: 503
+                height: 60
+                text: qsTr("Motor controller")
+                anchors.top: parent.top
+                anchors.topMargin: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                fontSizeMode: Text.VerticalFit
+                font.pixelSize: 73
+            }
+
+            RowLayout {
+                x: 68
+                y: 129
+                anchors.horizontalCenter: parent.horizontalCenter
+                Column {
+                    Label {
+                        id: label5
+                        width: 225
+                        height: 45
+                        text: qsTr("Controller gain P:")
+                        transformOrigin: Item.Center
+                        font.pointSize: 20
+                    }
+
+                    Label {
+                        id: label6
+                        width: 200
+                        height: 45
+                        text: qsTr("Controller gain I:")
+                        transformOrigin: Item.Center
+                        font.pointSize: 20
+                    }
+
+                    Label {
+                        id: label7
+                        width: 200
+                        height: 45
+                        text: qsTr("Controller gain D:")
+                        transformOrigin: Item.Center
+                        font.pointSize: 20
+                    }
+                }
+
+                Column {
+                    TextField {
+                        id: txtFMotorCtrlP
+                        text: qsTr("")
+                        font.pointSize: 20
+                    }
+
+                    TextField {
+                        id: txtFMotorCtrlI
+                        text: qsTr("")
+                        font.pointSize: 20
+                    }
+
+                    TextField {
+                        id: txtFMotorCtrlD
+                        text: qsTr("")
+                        font.pointSize: 20
+                    }
+                }
+            }
+
+            Button {
+                id: btnMotorSetParam
+                x: 320
+                y: 279
+                width: 200
+                height: 45
+                text: qsTr("Set parameters")
+                font.pointSize: 20
+            }
+
+            Button {
+                id: btnMotorGetParam
+                x: 320
+                y: 333
+                width: 200
+                height: 45
+                text: qsTr("Get parameters")
+                font.pointSize: 20
+            }
+        }
+    }
+}

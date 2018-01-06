@@ -1,0 +1,42 @@
+import QtQuick 2.4
+
+Page2Form {
+
+    btnHeadingGetParam {
+        property variant values: [txtFControllerGain1.text, txtFControllerGain2.text, txtFControllerGain3.text, txtFCourserVariation1.text, txtFCourserVariation2.text]
+        property variant cmd: [cmd_get, cmd_get, cmd_get, cmd_get ,cmd_get]
+        property variant id: [headCtrl_g1, headCtrl_g2, headCtrl_g3, headCtrl_Course1, headCtrl_Course2]
+
+        onClicked: {
+             backend.sendCommand(cmd,id,values,5)
+        }
+
+    }
+
+    btnHeadingSetParam {
+        property variant values: [txtFControllerGain1.text, txtFControllerGain2.text, txtFControllerGain3.text, txtFCourserVariation1.text, txtFCourserVariation2.text]
+        property variant cmd: [cmd_set, cmd_set, cmd_set, cmd_set ,cmd_set]
+        property variant id: [headCtrl_g1, headCtrl_g2, headCtrl_g3, headCtrl_Course1, headCtrl_Course2]
+
+        onClicked: {
+             backend.sendCommand(cmd,id,values,5)
+        }
+
+    }
+
+    btnMotorGetParam {
+        property variant values: [txtFMotorCtrlP.text, txtFMotorCtrlI.text, txtFMotorCtrlD.text]
+        property variant cmd: [cmd_get, cmd_get, cmd_get, cmd_get ,cmd_get]
+        property variant id: [headCtrl_g1, headCtrl_g2, headCtrl_g3, headCtrl_Course1, headCtrl_Course2]
+
+        onClicked: {
+             backend.sendCommand(cmd,id,values,5)
+        }
+
+    }
+
+    btnMotorSetParam {
+
+    }
+
+}

@@ -1,0 +1,101 @@
+import QtQuick 2.4
+
+ControlForm {
+    property string port
+
+
+    massPosition {
+        onValueChanged:
+        {
+            console.log(massPosition.value)
+            backend.setMotorPosition(massPosition.value)
+        }
+    }
+
+    Connections {
+        target:applicationWindow
+        property real gpslong
+        property real gpslat
+        property int  gpsfix: 0
+
+        onSensorChanged: {
+
+           switch(id){
+
+           case wind_Temp:
+                labelWindTemp.text = value.toFixed(1) + " °C"
+           break
+
+           case wind_Direction:
+                labelWindDirection.text = value.toFixed(1) + "°"
+           break
+
+           case wind_Speed:
+                labelWindSpeed.text = value.toFixed(2) + "knots"
+           break
+
+           case gps_long:
+                labelGPSLongitude.text = value.toFixed(1) + "°"
+                gpslong = value
+                applicationWindow.gpsPosition(gpslat,gpslong,gpsfix)
+           break
+
+           case gps_lat:
+                gpslat = value
+                labelGPSLatitude.text = value.toFixed(1) + "°"
+                applicationWindow.gpsPosition(gpslat,gpslong,gpsfix)
+           break
+
+           case gps_SOG:
+                labelGPSSpeed.text = value.toFixed(1) + "knots"
+           break
+
+           case gps_Heading:
+                labelGPSHeading.text = value.toFixed(1) + "°"
+           break
+
+           case gps_fix:
+                if(value > 0){
+                    gpsFixIndicator.active = 1
+                    gpsfix = 1
+                }else{
+                    gpsFixIndicator.active = 0
+                    gpsfix = 0
+                }
+           break
+
+           case imu_Roll:
+                labelIMURoll.text = value.toFixed(1) + "°"
+           break
+
+           case imu_Pitch:
+                labelIMUPitch.text = value.toFixed(1) + "°"
+           break
+
+           case imu_Yaw:
+                labelIMUYaw.text = value.toFixed(1) + "°"
+           break
+           }
+                connectionIndicator.active = 1
+
+        }
+
+     }
+
+    btnConnect {
+
+        onClicked: {
+        backend.connectBouy(port)
+        }
+    }
+
+    comPort {
+        onTextChanged: port = comPort.text
+    }
+
+    switchMode{
+        onPressed: {
+            backend.setMode(!switchMode.checked)
+    }
+
+}
